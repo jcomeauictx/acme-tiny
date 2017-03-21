@@ -15,6 +15,11 @@ conv.py:
  conv.py | ~/.acme-tiny
 	[ "$<" ] && openssl asn1parse -noout -out $@ \
 	 -genconf <(python conv.py $<)
+%.pem: %.der
+	openssl rsa -in $< -inform der > $@
+%.pem:
+	openssl genrsa 4096 > $@
+certs: ~/.acme-tiny/account_private_key.pem
 clean:
 	rm -rf conf.py
 user_clean:
