@@ -11,14 +11,19 @@ env:
 	mkdir $@
 conv.py:
 	wget $(CONV)
-~/.acme-tiny/account_private_key.der: $(LETSENCRYPT)/*/private_key.json \
+~/.acme-tiny/letsencrypt_private_key.der: $(LETSENCRYPT)/*/private_key.json \
  conv.py | ~/.acme-tiny
 	[ "$<" ] && openssl asn1parse -noout -out $@ \
 	 -genconf <(python conv.py $<)
 %.pem: %.der
 	openssl rsa -in $< -inform der > $@
 %.pem:
-	openssl genrsa 4096 > $@
+	-$(MAKE) ~/.acme-tiny/letsencrypt_private_key.pem
+	if [ -e ~/.acme-tiny/letsencrypt_private_key.pem ]; then \
+	 ln -sf ~/.acme-tiny/letsencrypt_private_key.pem $@; \
+	else \
+         openssl genrsa 4096 > $@; \
+	fi
 certs: ~/.acme-tiny/account_private_key.pem
 clean:
 	rm -rf conf.py
