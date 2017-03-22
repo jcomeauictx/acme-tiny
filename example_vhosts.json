@@ -1,0 +1,21 @@
+{
+    "comment": "this is an example configuration file for one server, or multiple servers, hosting multiple name-based virtual hosts on a single IPv4 address. all websites will share the same SAN cert",
+    "organization": "Example, Inc.",
+    "state": "VA",
+    "city": "Langley",
+    "organizational-unit": "Spy Services",
+    "email": "hostmaster@example.com",
+    "domains": [
+	{"fqdn": [
+	    "example.com",
+	    "www.example.com",
+	    "example.net",
+	    "www.example.net"
+	    ],
+         "document-root": "/var/www/html/example.com"
+	},
+	{"fqdn": ["spanish.example.com", "spanish.example.net"],
+         "document-root": "/var/www/html/example.com/spanish"}
+    ],
+    "servers": ["ns001.example.net", "ns002.example.net"]
+}
